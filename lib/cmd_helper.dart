@@ -64,8 +64,8 @@ class ProcessRunner {
   }) async {
     Logger logger = Logger(
       printer: PrettyPrinter(
-        lineLength: stdout.terminalColumns, // Width of the output
-        colors: stdout.supportsAnsiEscapes, // Colorful log messages
+        lineLength: 80, // Width of the output
+        colors: true, // Colorful log messages
         printEmojis: true,
         // Should each log print contain a timestamp
         dateTimeFormat: DateTimeFormat.dateAndTime,
