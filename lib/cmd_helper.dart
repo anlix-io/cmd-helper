@@ -18,12 +18,12 @@ class Result {
 class Expect {
   final String? message;
   final String? output;
-  final bool success;
+  final bool? success;
 
   Expect({
     this.message,
     this.output,
-    this.success = true,
+    this.success,
   });
 
   Expect.success({
@@ -39,15 +39,17 @@ class Expect {
 
   static Expect? hasOcurred(Result result, List<Expect> expects) {
     for (Expect expect in expects) {
+      
       if (
-        result.status == 0 && expect.success ||
-        result.status != 0 && !expect.success
-      ) {
-        return expect;
-      } else if (
         expect.output != null &&
         result.message.contains(expect.output!)
       ) {
+        return expect;
+      } else if (
+        expect.success != null && (
+        result.status == 0 && expect.success! ||
+        result.status != 0 && !expect.success!
+      )) {
         return expect;
       }
     }
@@ -97,8 +99,8 @@ class ProcessRunner {
 
     Expect? expect = Expect.hasOcurred(result, expects);
 
-    if (expect != null) {
-      if (expect.success) {
+    if (expect != null && expect.success != null) {
+      if (expect.success!) {
         logger.i(logMessage(result, expect: expect));
       } else {
         logger.e(logMessage(result, expect: expect));
@@ -118,8 +120,8 @@ class ProcessRunner {
     Result result, {
     Expect? expect,
   }) {
-    if (expect != null) {
-      if (expect.success) {
+    if (expect != null && expect.success != null) {
+      if (expect.success!) {
         return [
           'Command `${result.command}` executed successfully.',
           if (result.message.isNotEmpty) 'Output: ${result.message}',
