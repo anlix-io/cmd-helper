@@ -120,15 +120,16 @@ class ProcessRunner {
     Result result, {
     Expect? expect,
   }) {
+    String message = '';
     if (expect != null && expect.success != null) {
       if (expect.success!) {
-        return [
+        message = [
           'Command `${result.command}` executed successfully.',
           if (result.message.isNotEmpty) 'Output: ${result.message}',
           expect.message,
         ].join('\n');
       } else {
-        return [
+        message = [
           'Command `${result.command}` failed.',
           if (result.message.isNotEmpty) 'Output: ${result.message}',
           expect.message,
@@ -137,15 +138,22 @@ class ProcessRunner {
     }
 
     if (result.success) {
-      return [
+      message = [
         'Command `${result.command}` executed successfully.',
         if (result.message.isNotEmpty) 'Output: ${result.message}',
       ].join('\n');
     } else {
-      return [
+      message = [
         'Command `${result.command}` failed.',
         if (result.message.isNotEmpty) 'Output: ${result.message}',
       ].join('\n');
     }
+    // Break the message into multiple lines at the last space before the line
+    // reaches the line length.
+    return message.splitMapJoin(
+      RegExp(r'.{1,80}(?:\s+|$)'),
+      onMatch: (m) => '${m.group(0)}',
+      onNonMatch: (n) => n,
+    );
   }
 }
