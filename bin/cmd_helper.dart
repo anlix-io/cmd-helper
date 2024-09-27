@@ -17,7 +17,7 @@ import 'package:cmd_helper/cmd_helper.dart';
 //     }
 //   ]
 // }
-void main(List<String> args) {
+void main(List<String> args) async {
   List<Map<String, dynamic>> jsonList = [];
 
   try {
@@ -53,7 +53,7 @@ void main(List<String> args) {
       }
     }
 
-    ProcessRunner.run(
+    await ProcessRunner.run(
       command: command,
       args: argsList,
       workingDirectory: workingDirectory,
