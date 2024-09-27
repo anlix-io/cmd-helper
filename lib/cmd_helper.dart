@@ -98,16 +98,16 @@ class ProcessRunner {
         logger.i(logMessage(result, expect: expect));
         exit(0);
       } else {
-        logger.i(logMessage(result, expect: expect));
+        logger.e(logMessage(result, expect: expect));
         exit(1);
       }
     }
 
     if (result.success) {
-      logMessage(result);
+      logger.i(logMessage(result));
       exit(0);
     } else {
-      logMessage(result);
+      logger.e(logMessage(result));
       exit(1);
     }
   }
