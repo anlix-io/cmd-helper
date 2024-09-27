@@ -13,7 +13,7 @@ To use CMD Helper, you need to have Dart installed on your machine. You can inst
 Clone the repository and navigate to the project directory:
 
 ```sh
-git clone https://github.com/yourusername/cmd_helper.git
+git clone https://github.com/anlix-io/cmd-helper
 cd cmd_helper
 ```
 
