@@ -1,0 +1,12 @@
+{
+  "command": "rm",
+  "args": ["asijdaijsda"],
+  "workingDirectory": ".",
+  "expects": [
+    {
+      "output": "No such file or directory",
+      "message": "File not found",
+      "success": false
+    }
+  ]
+}
