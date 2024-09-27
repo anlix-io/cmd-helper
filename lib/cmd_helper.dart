@@ -28,17 +28,29 @@ class Expect {
     this.exitWithStatus,
   });
 
+  @override
+  String toString() {
+    return 'Expected(${{
+      'expectedOutput': expectedOutput,
+      'expectedStatus': expectedStatus,
+      'exitWithMessage': exitWithMessage,
+      'exitWithStatus': exitWithStatus,
+    }})';
+  }
+
   static Expect? hasOcurred(Result result, List<Expect> expects) {
     for (Expect expect in expects) {
       if (
         expect.expectedOutput != null &&
         result.message.contains(expect.expectedOutput!)
       ) {
+        print('Expect: $expect');
         return expect;
       } else if (
         expect.expectedStatus != null &&
         (result.status == expect.expectedStatus!)
       ) {
+        print('Expect: $expect');
         return expect;
       }
     }
