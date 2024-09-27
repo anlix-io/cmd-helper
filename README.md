@@ -28,9 +28,10 @@ To use CMD Helper, run the main function with a JSON string as input. The JSON s
   "workingDirectory": "path",
   "expects": [
     {
-      "message": "message",
-      "output": "output",
-      "success": true
+      "exitWithMessage": "exitWithMessage",
+      "expectedOutput": "expectedOutput",
+      "expectedStatus": 1,
+      "exitWithStatus": 0,
     }
   ]
 }
@@ -41,7 +42,7 @@ To use CMD Helper, run the main function with a JSON string as input. The JSON s
 Here is an example of how to run CMD Helper:
 
 ```
-dart run bin/cmd_helper.dart '{"command": "echo", "args": ["Hello, World!"], "workingDirectory": ".", "expects": [{"message": "Check output", "output": "Hello, World!", "success": true}]}'
+dart run bin/cmd_helper.dart '{"command": "echo", "args": ["Hello, World!"], "workingDirectory": ".", "expects": [{"exitWithMessage": "Check output", "expectedOutput": "Hello, World!", "expectedStatus": 1, "exitWithStatus": 0}]}'
 ```
 
 ## Contributing

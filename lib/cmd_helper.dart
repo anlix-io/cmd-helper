@@ -16,40 +16,29 @@ class Result {
 }
 
 class Expect {
-  final String? message;
-  final String? output;
-  final bool? success;
+  final String? expectedOutput;
+  final int? expectedStatus;
+  final String? exitWithMessage;
+  final int? exitWithStatus;
 
   Expect({
-    this.message,
-    this.output,
-    this.success,
+    this.expectedOutput,
+    this.expectedStatus,
+    this.exitWithMessage,
+    this.exitWithStatus,
   });
-
-  Expect.success({
-    this.message,
-    this.output,
-  }) : success = true;
-
-
-  Expect.failure({
-    this.message,
-    this.output,
-  }) : success = false;
 
   static Expect? hasOcurred(Result result, List<Expect> expects) {
     for (Expect expect in expects) {
-      
       if (
-        expect.output != null &&
-        result.message.contains(expect.output!)
+        expect.expectedOutput != null &&
+        result.message.contains(expect.expectedOutput!)
       ) {
         return expect;
       } else if (
-        expect.success != null && (
-        result.status == 0 && expect.success! ||
-        result.status != 0 && !expect.success!
-      )) {
+        expect.expectedStatus != null &&
+        (result.status == expect.expectedStatus!)
+      ) {
         return expect;
       }
     }
@@ -77,7 +66,7 @@ class ProcessRunner {
 
     ProcessResult? pRes;
     Result? result;
-    
+
     try {
       pRes = await Process.run(
         command,
@@ -98,59 +87,40 @@ class ProcessRunner {
     }
 
     Expect? expect = Expect.hasOcurred(result, expects);
+    int status = expect?.exitWithStatus ?? result.status;
+    String message = expect?.exitWithMessage ?? result.message;
 
-    if (expect != null && expect.success != null) {
-      if (expect.success!) {
-        logger.i(logMessage(result, expect: expect));
-      } else {
-        logger.e(logMessage(result, expect: expect));
-        exit(1);
-      }
-    }
-
-    if (result.success) {
-      logger.i(logMessage(result));
+    if (status == 0) {
+      logger.i(
+        createMessage(
+          command: result.command,
+          status: status,
+          message: message,
+        ),
+      );
     } else {
-      logger.e(logMessage(result));
+      logger.e(
+        createMessage(
+          command: result.command,
+          status: status,
+          message: message,
+        ),
+      );
       exit(1);
     }
   }
 
-  static String logMessage(
-    Result result, {
-    Expect? expect,
+  static String createMessage({
+    required String command,
+    required int status,
+    String? message,
   }) {
-    String message = '';
-    if (expect != null && expect.success != null) {
-      if (expect.success!) {
-        message = [
-          'Command `${result.command}` executed successfully.',
-          if (result.message.isNotEmpty) 'Output: ${result.message}',
-          expect.message,
-        ].join('\n');
-      } else {
-        message = [
-          'Command `${result.command}` failed.',
-          if (result.message.isNotEmpty) 'Output: ${result.message}',
-          expect.message,
-        ].join('\n');
-      }
-    }
-
-    if (result.success) {
-      message = [
-        'Command `${result.command}` executed successfully.',
-        if (result.message.isNotEmpty) 'Output: ${result.message}',
-      ].join('\n');
-    } else {
-      message = [
-        'Command `${result.command}` failed.',
-        if (result.message.isNotEmpty) 'Output: ${result.message}',
-      ].join('\n');
-    }
-    // Break the message into multiple lines at the last space before the line
-    // reaches the line length.
-    return message.splitMapJoin(
+    return <String>[
+      status == 0
+        ? 'Command `$command` executed successfully.'
+        : 'Command `$command` failed.',
+      if (message != null) 'Message: $message',
+    ].join('\n').splitMapJoin(
       RegExp(r'.{1,80}(?:\s+|$)'),
       onMatch: (m) => '${m.group(0)}',
       onNonMatch: (n) => n,

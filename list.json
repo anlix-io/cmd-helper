@@ -6,8 +6,8 @@
       "workingDirectory": ".",
       "expects": [
         {
-          "message": "Directory created",
-          "success": true
+          "exitWithMessage": "Directory created",
+          "expectedStatus": 0
         }
       ]
     },
@@ -17,8 +17,8 @@
       "workingDirectory": ".",
       "expects": [
         {
-          "message": "File created",
-          "success": true
+          "exitWithMessage": "File created",
+          "expectedStatus": 0
         }
       ]
     },
@@ -28,13 +28,13 @@
       "workingDirectory": "teste",
       "expects": [
         {
-          "output": "teste.txt",
-          "message": "File found",
-          "success": true
+          "expectedOutput": "teste.txt",
+          "exitWithMessage": "File found",
+          "expectedStatus": 0
         },
         {
-          "message": "Error: No such file or directory",
-          "success": false
+          "exitWithMessage": "Error: No such file or directory",
+          "expectedStatus": 1
         }
       ]
     },
@@ -44,13 +44,13 @@
       "workingDirectory": "teste",
       "expects": [
         {
-          "output": "-rw-r--r-- 1 root root  0 Dec  1 00:00 teste.txt\n",
-          "message": "File found",
-          "success": true
+          "expectedOutput": "-rw-r--r-- 1 root root  0 Dec  1 00:00 teste.txt\n",
+          "exitWithMessage": "File found",
+          "expectedStatus": 0
         },
         {
-          "message": "Error: No such file or directory",
-          "success": false
+          "exitWithMessage": "Error: No such file or directory",
+          "expectedStatus": 1
         }
       ]
     },
@@ -60,12 +60,12 @@
       "workingDirectory": ".",
       "expects": [
         {
-          "message": "File removed",
-          "success": true
+          "exitWithMessage": "File removed",
+          "expectedStatus": 0
         },
         {
-          "message": "Error: No such file or directory",
-          "success": false
+          "exitWithMessage": "Error: No such file or directory",
+          "expectedStatus": 1
         }
       ]
     },
@@ -75,12 +75,12 @@
       "workingDirectory": ".",
       "expects": [
         {
-          "message": "Directory removed",
-          "success": true
+          "exitWithMessage": "Directory removed",
+          "expectedStatus": 0
         },
         {
-          "message": "Error: No such file or directory",
-          "success": false
+          "exitWithMessage": "Error: No such file or directory",
+          "expectedStatus": 1
         }
       ]
     }

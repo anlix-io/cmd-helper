@@ -4,9 +4,10 @@
   "workingDirectory": ".",
   "expects": [
     {
-      "output": "No such file or directory",
-      "message": "File not found",
-      "success": false
+      "expectedOutput": "No such file or directory",
+      "expectedStatus": 0,
+      "exitWithMessage": "File not found",
+      "exitWithStatus": 1
     }
   ]
 }

@@ -46,9 +46,10 @@ void main(List<String> args) async {
     if (json.containsKey('expects')) {
       for (Map<String, dynamic> expect in json['expects']) {
         expects.add(Expect(
-          message: expect['message'],
-          output: expect['output'],
-          success: expect['success'],
+          expectedOutput: expect['expectedOutput'],
+          expectedStatus: expect['expectedStatus'],
+          exitWithMessage: expect['exitWithMessage'],
+          exitWithStatus: expect['exitWithStatus'],
         ));
       }
     }
