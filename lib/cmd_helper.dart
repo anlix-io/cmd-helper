@@ -2,10 +2,12 @@ import 'dart:io';
 import 'package:logger/logger.dart';
 
 class Result {
+  final String command;
   final String message;
   final int status;
 
   Result({
+    required this.command,
     required this.message,
     required this.status,
   });
@@ -81,11 +83,13 @@ class ProcessRunner {
         workingDirectory: workingDirectory,
       );
       result = Result(
+        command: '$command ${args.join(' ')}'.trim(),
         message: (pRes.stdout ?? pRes.stderr).toString(),
         status: pRes.exitCode,
       );
     } catch (e) {
       result = Result(
+        command: '$command ${args.join(' ')}'.trim(),
         message: e.toString(),
         status: 1,
       );
@@ -96,7 +100,6 @@ class ProcessRunner {
     if (expect != null) {
       if (expect.success) {
         logger.i(logMessage(result, expect: expect));
-        exit(0);
       } else {
         logger.e(logMessage(result, expect: expect));
         exit(1);
@@ -105,7 +108,6 @@ class ProcessRunner {
 
     if (result.success) {
       logger.i(logMessage(result));
-      exit(0);
     } else {
       logger.e(logMessage(result));
       exit(1);
@@ -118,10 +120,14 @@ class ProcessRunner {
   }) {
     if (expect != null) {
       if (expect.success) {
-        return 'Command executed successfully.';
+        return [
+          'Command `${result.command}` executed successfully.',
+          if (result.message.isNotEmpty) 'Output: ${result.message}',
+          expect.message,
+        ].join('\n');
       } else {
         return [
-          'Command failed.',
+          'Command `${result.command}` failed.',
           if (result.message.isNotEmpty) 'Output: ${result.message}',
           expect.message,
         ].join('\n');
@@ -129,10 +135,13 @@ class ProcessRunner {
     }
 
     if (result.success) {
-      return 'Command executed successfully.';
+      return [
+        'Command `${result.command}` executed successfully.',
+        if (result.message.isNotEmpty) 'Output: ${result.message}',
+      ].join('\n');
     } else {
       return [
-        'Command failed.',
+        'Command `${result.command}` failed.',
         if (result.message.isNotEmpty) 'Output: ${result.message}',
       ].join('\n');
     }

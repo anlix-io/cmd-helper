@@ -1,0 +1,88 @@
+{
+  "list": [
+    {
+      "command": "mkdir",
+      "args": ["teste"],
+      "workingDirectory": ".",
+      "expects": [
+        {
+          "message": "Directory created",
+          "success": true
+        }
+      ]
+    },
+    {
+      "command": "touch",
+      "args": ["teste/teste.txt"],
+      "workingDirectory": ".",
+      "expects": [
+        {
+          "message": "File created",
+          "success": true
+        }
+      ]
+    },
+    {
+      "command": "ls",
+      "args": [],
+      "workingDirectory": "teste",
+      "expects": [
+        {
+          "output": "teste.txt",
+          "message": "File found",
+          "success": true
+        },
+        {
+          "message": "Error: No such file or directory",
+          "success": false
+        }
+      ]
+    },
+    {
+      "command": "ls",
+      "args": ["-l"],
+      "workingDirectory": "teste",
+      "expects": [
+        {
+          "output": "-rw-r--r-- 1 root root  0 Dec  1 00:00 teste.txt\n",
+          "message": "File found",
+          "success": true
+        },
+        {
+          "message": "Error: No such file or directory",
+          "success": false
+        }
+      ]
+    },
+    {
+      "command": "rm",
+      "args": ["teste/teste.txt"],
+      "workingDirectory": ".",
+      "expects": [
+        {
+          "message": "File removed",
+          "success": true
+        },
+        {
+          "message": "Error: No such file or directory",
+          "success": false
+        }
+      ]
+    },
+    {
+      "command": "rm",
+      "args": ["-fr", "teste"],
+      "workingDirectory": ".",
+      "expects": [
+        {
+          "message": "Directory removed",
+          "success": true
+        },
+        {
+          "message": "Error: No such file or directory",
+          "success": false
+        }
+      ]
+    }
+  ]
+}
