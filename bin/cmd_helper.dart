@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:cmd_helper/cmd_helper.dart';
-import 'package:logger/logger.dart';
 
 // Main function parses the arguments and runs the command.
 // The input must be a JSON string with the following structure:
