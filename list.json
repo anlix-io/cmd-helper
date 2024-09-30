@@ -6,8 +6,9 @@
       "workingDirectory": ".",
       "expects": [
         {
-          "exitWithMessage": "Directory created",
-          "expectedStatus": 0
+          "expectedOutput": "File exists",
+          "exitWithMessage": "Directory already created",
+          "exitWithStatus": 0
         }
       ]
     },

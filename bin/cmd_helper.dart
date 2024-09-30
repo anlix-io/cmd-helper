@@ -17,11 +17,11 @@ import 'package:cmd_helper/cmd_helper.dart';
 //     }
 //   ]
 // }
-void main(List<String> args) async {
+void main(List<String> args) {
   List<Map<String, dynamic>> jsonList = [];
 
   try {
-    String filepath = await File(args[0]).readAsString();
+    String filepath = File(args[0]).readAsStringSync();
     Map<String, dynamic> json = jsonDecode(filepath);
     if (json.containsKey('list')) {
       jsonList = List<Map<String, dynamic>>.from(json['list']);
@@ -55,7 +55,7 @@ void main(List<String> args) async {
       }
     }
 
-    await ProcessRunner.run(
+    ProcessRunner.run(
       command: command,
       args: argsList,
       workingDirectory: workingDirectory,
