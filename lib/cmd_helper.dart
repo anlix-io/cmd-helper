@@ -149,7 +149,7 @@ class ProcessRunner {
       if (result != null) 'Result: $result',
       if (message != null) 'Message: $message',
     ].join('\n').splitMapJoin(
-      RegExp(r'.{1,80}(?:\s+|$)'),
+      RegExp(r'.{1,64}(?:\s+|$)'),
       onMatch: (m) => '${m.group(0)}',
       onNonMatch: (n) => n,
     );
