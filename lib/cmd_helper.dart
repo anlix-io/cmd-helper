@@ -98,9 +98,9 @@ class ProcessRunner {
 
       result = Result(
         command: '$command ${args.join(' ')}'.trim(),
-        message: pRes.exitCode == 0
-          ? pRes.stdout.toString()
-          : pRes.stderr.toString(),
+        message:
+          pRes.stdout.toString() + '\n' +
+          pRes.stderr.toString(),
         status: pRes.exitCode,
       );
     } catch (e) {
