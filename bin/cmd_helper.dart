@@ -40,7 +40,9 @@ void main(List<String> args) {
 
   for (Map<String, dynamic> json in jsonList) {
     String command = json['command'];
-    List<String> argsList = List<String>.from(json['args']);
+    List<String> argsList = List<dynamic>.from(json['args']).map(
+      (e) => e.toString(),
+    ).toList();
     String workingDirectory = json['workingDirectory'] ?? '.';
     List<Expect> expects = [];
 
